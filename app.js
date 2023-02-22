@@ -12,6 +12,15 @@ app.get("/", (req, res) => {
   res.status(200).send({ message: "Welcome to the Unsplash API!" });
 });
 
+/* const URL = "https://api.unsplash.com/photos";
+
+const getPhotos = async () => {
+  const response = await fetch(URL);
+  console.log(response);
+}; */
+
+app.use("/api/photos", require("./routes/photoRoutes"));
+
 app.listen(port, () => {
   console.log(`App is running on ${port}`);
 });
