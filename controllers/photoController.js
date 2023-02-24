@@ -31,4 +31,30 @@ const getPhotosById = async (req, res) => {
       .send({ message: "Server error. Please try again later." });
   }
 };
-module.exports = { getAllPhotos, getPhotosById };
+
+const getPhotosByUsername = async (req, res) => {
+  const url = `https://api.unsplash.com/`;
+  const username = req.params.username;
+
+  try {
+    const response = await axios.get(
+      url + "users/" + username + "/photos" + clientAccess
+    );
+    const images = response.data;
+
+    const imageInfo = images.map((img) => [
+      {
+        id: img.id,
+        username: img.user.username,
+        description: img.description || "No description provided",
+        url: img.urls.raw,
+      },
+    ]);
+
+    res.status(200).json(imageInfo);
+  } catch (error) {
+    res.sendStatus(error.response.status);
+    return { message: error.response.data };
+  }
+};
+module.exports = { getAllPhotos, getPhotosById, getPhotosByUsername };
