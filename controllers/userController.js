@@ -67,14 +67,7 @@ const getMe = asyncHandler(async (req, res) => {
   return res.status(200).json({ id: _id, username, email });
 });
 
-const logOut = asyncHandler(async (req, res) => {
-  req.user.deleteToken(req.token, (error, user) => {
-    if (error) return res.status(400).send(error);
-    res.sendStatus(200);
-  });
-});
-
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
-module.exports = { signUp, logIn, logOut, getMe };
+module.exports = { signUp, logIn, getMe };
